@@ -1,16 +1,27 @@
 import React from 'react';
-import Login from './pages/Login';
+import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
+import store, { persistor } from './store';
+import history from './services/history';
 import GlobalStyle from './styles/GlobalStyles';
 import Header from './components/Header';
+import AppRoutes from './routes';
 
 function App() {
   return (
-    <>
-      <Header />
-      <Login />
-      <GlobalStyle />
-    </>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <HistoryRouter history={history}>
+          <Header />
+          <AppRoutes />
+          <GlobalStyle />
+          <ToastContainer autoClose={3000} className="toast-container" />
+        </HistoryRouter>
+      </PersistGate>
+    </Provider>
   );
 }
 
